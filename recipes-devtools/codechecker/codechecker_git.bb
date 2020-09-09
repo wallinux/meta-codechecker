@@ -13,6 +13,10 @@ S = "${WORKDIR}/git"
 
 inherit autotools python3native setuptools3
 
+do_configure() {
+    bbnote "configure"
+}
+
 do_compile() {
     alias python=python3
     cd ${S}
