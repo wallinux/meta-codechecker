@@ -20,7 +20,7 @@ SAVEDENV = ""
 
 python do_csprecompile () {
     SAVEDENV = os.environ.copy()
-    os.environ["LD_PRELOAD"] = "" + d.getVar('RECIPE_SYSROOT_NATIVE') + "/usr/local/CodeChecker/ld_logger/lib/x86_64/ldlogger.so"
+    os.environ["LD_PRELOAD"] = "/opt/codechecker/build/CodeChecker/ld_logger/lib/x86_64/ldlogger.so"
     os.environ["CC_LOGGER_GCC_LIKE"] = "gcc:g++:clang:clang++:cc:c++:ccache"
     os.environ["CC_LOGGER_FILE"] = "" + d.getVar("DEPLOY_DIR") + "/CodeChecker/" + d.getVar("PN") + "/codechecker-log.json"
     #os.environ["PARALLEL_MAKE"] = "" + d.getVar("PARALLEL_MAKE")
