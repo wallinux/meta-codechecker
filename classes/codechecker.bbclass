@@ -9,8 +9,8 @@ python () {
             and not bb.data.inherits_class('allarch', d):
             d.prependVarFlag("do_compile", 'prefuncs', "do_csprecompile ")
             d.appendVarFlag("do_compile", 'postfuncs', " do_cspostcompile")
-            d.appendVarFlag("do_compile", "postfuncs", " do_codecheckeranalyse")
-            d.appendVarFlag("do_compile", "postfuncs", " do_codecheckerreport")
+            d.appendVarFlag("do_compile", 'postfuncs', " do_codecheckeranalyse")
+            d.appendVarFlag("do_compile", 'postfuncs', " do_codecheckerreport")
 }
 
 python do_csprecompile () {
@@ -38,7 +38,7 @@ if test x"${CODECHECKER_ENABLED}" = x"1"; then
     export CC_ANALYSE_OUT="${DEPLOY_DIR}/CodeChecker/${PN}/results/"
 
     if test -f ${CC_LOGGER_FILE} ; then
-        CodeChecker analyze ${PARALLEL_MAKE} -o ${CC_ANALYSE_OUT} --report-hash context-free-v2 ${CC_LOGGER_FILE}
+        CodeChecker analyze ${PARALLEL_MAKE} ${CODECHECKER_ANALYZE_ARGS} -o ${CC_ANALYSE_OUT} --report-hash context-free-v2 ${CC_LOGGER_FILE}
     fi
 fi
 }

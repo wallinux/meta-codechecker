@@ -16,11 +16,15 @@ To enable the layer within a single recipe, do add
     inherit codechecker
     CODECHECKER_ENABLED = "1"
  
- ### In conf/local.conf
+### In conf/local.conf
     INHERIT += "codechecker"
     CODECHECKER_ENABLED = "1"
 
 ### options:
+
+To add arguments to the CodeChecker analyze command. e.g.:
+
+    CODECHECKER_ANALYZE_ARGS = "--ctu -e sensitive"
 
 To generate a static HTML site as report do add:
 
