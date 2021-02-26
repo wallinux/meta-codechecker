@@ -5,8 +5,8 @@ LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=2e982d844baa4df1c80de75470e0c5cb"
 
 DEPENDS = "doxygen-native curl-native git-native nodejs-native python3-native"
 
-SRC_URI = " git://github.com/Ericsson/codechecker.git;protocol=https \
-            file://0001-Use-python3-for-setuptool-calls.patch "
+SRC_URI = "git://github.com/Ericsson/codechecker.git \
+           file://0001-Use-python3-for-setuptool-calls.patch"
 
 #SRCREV = "${AUTOREV}"
 # last 6.32 api
