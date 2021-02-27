@@ -32,9 +32,14 @@ do_codechecker_analyse() {
         export CC_LOGGER_FILE="${DEPLOY_DIR}/CodeChecker/${PN}/codechecker-log.json"
         export CC_ANALYSE_OUT="${DEPLOY_DIR}/CodeChecker/${PN}/${TS}/results/"
         if test -f ${CC_LOGGER_FILE} ; then
-            CodeChecker analyze ${PARALLEL_MAKE} ${CODECHECKER_ANALYZE_ARGS} -o ${CC_ANALYSE_OUT} --report-hash context-free-v2 ${CC_LOGGER_FILE}
+            CodeChecker analyze ${PARALLEL_MAKE} ${CODECHECKER_ANALYZE_ARGS} -o ${CC_ANALYSE_OUT} --report-hash context-free-v2 ${CC_LOGGER_FILE} || status=$?
+            if ${status}; then
+                bbnote "CodeChecker analyze ok"
+            else
+                bbwarn "CodeChecker analyze issues found"
+            fi
             ln -sfn ${DEPLOY_DIR}/CodeChecker/${PN}/${TS} ${DEPLOY_DIR}/CodeChecker/${PN}/latest
-            mv ${CC_LOGGER_FILE} ${DEPLOY_DIR}/CodeChecker/${PN}/${TS}/
+            cp ${CC_LOGGER_FILE} ${DEPLOY_DIR}/CodeChecker/${PN}/${TS}/
         fi
     fi
 }
@@ -78,7 +83,12 @@ do_codechecker_store() {
         if test -d ${CC_ANALYSE_OUT}/ ; then
             if test x"${CODECHECKER_REPORT_STORE}" = x"1"; then
                 if test ! x"${CODECHECKER_REPORT_HOST}" = x""; then
-                    CodeChecker store -n ${PF} --trim-path-prefix=${S} --url ${CODECHECKER_REPORT_HOST} ${CC_ANALYSE_OUT}
+                    CodeChecker store -n ${PF} --trim-path-prefix=${S} --url ${CODECHECKER_REPORT_HOST} ${CC_ANALYSE_OUT} || status=$?
+                    if ${status}; then
+                        bbdebug 1 "CodeChecker store ok"
+                    else
+                        bbwarn "CodeChecker store failed"
+                    fi
                 fi
             fi
         fi
